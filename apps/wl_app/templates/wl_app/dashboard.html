@@ -18,7 +18,9 @@
 		<!-- <a href="/travels/destination/{{data.id}}">{{data.destination}}</a> -->
 		<a href="/wishes/item/{{data.id}}">{{data.name}}</a>
 		{{data.user.name}}
-		{{data.created_at}}
+		{{data.created_at|date:" M d Y"}}
+		
+		
 		{% if request.session.id != data.user.id %}
 			<a href="/wishes/remove/{{data.id}}">Remove</a>
 		{% else %}
@@ -29,14 +31,15 @@
 	{%endfor%}
 
 <br>
-<h2>Wishes I joined</h2>
+<!-- <h2>Wishes I joined</h2> -->
 		<!-- wishes the user joined -->
 	{%for data in wishes_joined%} 
 		<p> 
 		<a href="/wishes/item/{{data.item.id}}">{{data.item.name}}</a>
 		<!-- {{data.follower.name}} -->
 		{{data.item.user.name}}
-		{{data.item.created_at}}
+		
+		{{data.item.created_at|date:" M d Y"}}
 		{% if request.session.id != data.item.user_id %}
 			<a href="/wishes/remove/{{data.item.id}}/{{request.session.id}}">Remove</a>
 		{% endif %}
@@ -54,11 +57,12 @@
 	<h2>Other User wishes:</h2>
 	{%for data in other_wishes%}
 		<p> 
-		{{data.user.name}}  
+		
 		<a href="/wishes/item/{{data.id}}">{{data.name}}</a>
+		{{data.user.name}}  
 		<!-- {{data.name}} -->
-  
-		<a href="/joinwish/{{data.id}}/{{request.session.id}}">Join</a>
+		{{data.created_at|date:" M d Y"}}	
+		<a href="/joinwish/{{data.id}}/{{request.session.id}}">Add to Wishlist</a>
 		<!-- Join -->
 		</p>
 	{%endfor%}

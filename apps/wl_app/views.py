@@ -93,22 +93,15 @@ def getawish(request):
     return render(request, "wl_app/wishesadd.html")
 
 def processwish(request): 
-    # errors = TripSchedule.objects.basic_validator(request.POST)
-    # if len(errors):
-    #     for tag, error in errors.iteritems():
-    #         messages.error(request, error, extra_tags=tag)
-    #     return redirect('/travels/add')
-    # else:
-  
-    # errors = TripSchedule.objects.basic_validator(request.POST)
-    # if len(errors):
-    #     for tag, error in errors.iteritems():
-    #         messages.error(request, error, extra_tags=tag)
-    #     return redirect('/travels/add')
-    # else:
-    wish1 = ItemList(name = request.POST['name'], user_id = request.session['id'])
-    wish1.save()
-    return redirect ('/dashboard')
+    errors = ItemList.objects.basic_validator(request.POST)
+    if len(errors):
+        for tag, error in errors.iteritems():
+            messages.error(request, error, extra_tags=tag)
+        return redirect('/wish_items/create')
+    else:
+        wish1 = ItemList(name = request.POST['name'], user_id = request.session['id'])
+        wish1.save()
+        return redirect ('/dashboard')
 
 
 def remove(request,wid,uid): #deletes an wish from the follow table
