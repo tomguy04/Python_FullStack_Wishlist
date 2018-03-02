@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<!-- <h1>Welcome {{request.session.first_name}}</h1>
+	your registered. -->
+	
+	Welcome {{user}} 
+	<a href="/logout">Logout</a>
+	<br><a href="/wish_items/create">add wish</a>
+	<br><h2>Your Wishes:</h2>
+
+	<!-- in ItemList user-User  -->
+	{%for data in my_wishes%} 
+		<p> 
+		<!-- <a href="/travels/destination/{{data.id}}">{{data.destination}}</a> -->
+		<a href="/wishes/item/{{data.id}}">{{data.name}}</a>
+		{{data.user.name}}
+		{{data.created_at}}
+		{% if request.session.id != data.user.id %}
+			<a href="/wishes/remove/{{data.id}}">Remove</a>
+		{% else %}
+			<a href="/wishes/delete/{{data.id}}">Delete</a>
+		{% endif %}
+
+		</p>
+	{%endfor%}
+
+<br>
+<h2>Wishes I joined</h2>
+		<!-- wishes the user joined -->
+	{%for data in wishes_joined%} 
+		<p> 
+		<a href="/wishes/item/{{data.item.id}}">{{data.item.name}}</a>
+		<!-- {{data.follower.name}} -->
+		{{data.item.user.name}}
+		{{data.item.created_at}}
+		{% if request.session.id != data.item.user_id %}
+			<a href="/wishes/remove/{{data.item.id}}/{{request.session.id}}">Remove</a>
+		{% endif %}
+		
+		<!-- {{data.item.name}} -->
+		
+		</p>
+	{%endfor%}
+	<!-- class Follow(models.Model): 
+    trip = models.ForeignKey(TripSchedule, related_name = 'users')
+    follower= models.ForeignKey(User, related_name = 'trips') -->
+
+
+	<br><br>
+	<h2>Other User wishes:</h2>
+	{%for data in other_wishes%}
+		<p> 
+		{{data.user.name}}  
+		<a href="/wishes/item/{{data.id}}">{{data.name}}</a>
+		<!-- {{data.name}} -->
+  
+		<a href="/joinwish/{{data.id}}/{{request.session.id}}">Join</a>
+		<!-- Join -->
+		</p>
+	{%endfor%}
+
+
+	
+
+	
+</body>
+</html>
