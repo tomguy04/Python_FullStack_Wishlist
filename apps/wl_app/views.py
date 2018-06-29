@@ -90,7 +90,15 @@ def dashboard(request):
         return redirect('/main')
 
 def getawish(request):
-    return render(request, "wl_app/wishesadd.html")
+    if 'id' in request.session:
+        u = User.objects.get(id = request.session['id'])
+        user_name = u.name
+    
+        context = {
+            'user':user_name,
+        }
+
+        return render(request, "wl_app/wishesadd.html", context)
 
 def processwish(request): 
     errors = ItemList.objects.basic_validator(request.POST)
@@ -117,12 +125,14 @@ def delete(request,wid): #deletes an entire wish from db
 
 def wish(request,wid):
     myItemList = ItemList.objects.get(id=wid)
-
+    if 'id' in request.session:
+            u = User.objects.get(id = request.session['id'])
+            user_name = u.name
     context={
         'myWishes':myItemList,
         'name':myItemList.user.name,
-        'followers': Follow.objects.filter(item_id=wid)
-
+        'followers': Follow.objects.filter(item_id=wid),
+        'user':user_name
     }
     return render(request, "wl_app/wish.html", context)
 
